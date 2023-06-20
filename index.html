@@ -1,0 +1,63 @@
+from telegram.ext import Updater, CommandHandler
+
+# Функція-обробник команди /start
+
+def start(update, context):
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Привіт! Ласкаво просимо до нашого бота про курси для бізнесу. Як можу допомогти?")
+
+# Функція-обробник команди /курс
+
+def course(update, context):
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Наші доступні курси для бізнесу:")
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="- Курс 1: Основи маркетингу")
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="- Курс 2: Фінансовий менеджмент")
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="- Курс 3: Лідерство і комунікація")
+
+# Функція-обробник невідомих команд
+
+def unknown_command(update, context):
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Вибачте, ця команда невідома. Будь ласка, спробуйте ще раз.")
+
+# Основна функція для запуску бота
+
+def main():
+
+    # Ініціалізація бота з використанням токену
+
+    updater = Updater("YOUR_TELEGRAM_BOT_TOKEN", use_context=True)
+
+    # Отримання об'єкта диспетчера для реєстрації обробників команд
+
+    dispatcher = updater.dispatcher
+
+    # Реєстрація обробників команд
+
+    start_handler = CommandHandler('start', start)
+
+    dispatcher.add_handler(start_handler)
+
+    course_handler = CommandHandler('курс', course)
+
+    dispatcher.add_handler(course_handler)
+
+    unknown_handler = MessageHandler(Filters.command, unknown_command)
+
+    dispatcher.add_handler(unknown_handler)
+
+    # Запуск бота
+
+    updater.start_polling()
+
+    # Зупинка бота при натисканні Ctrl + C
+
+    updater.idle()
+
+if __name__ == '__main__':
+
+    main()
